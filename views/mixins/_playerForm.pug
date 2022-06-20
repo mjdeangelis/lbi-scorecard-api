@@ -1,0 +1,9 @@
+mixin playerForm(player = {})
+    form(action="/api/players/add" method="POST" class="card")
+        label(for="name") Name
+        input(type="text" name="name")
+        label(for="handicap") Handicap
+        input(type="text" name="handicap")
+        label(for="currentHole") Starting Hole
+        input(type="text" name="currentHole")
+        input(type="submit" value="Save" class="button")
