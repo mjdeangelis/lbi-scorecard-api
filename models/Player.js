@@ -135,9 +135,12 @@ const playerSchema = new mongoose.Schema({
     type: scorecardType,
     default: defaultScorecard,
   },
-  players: {
-    // add players
-  },
+  players: [
+    {
+      type: scorecardType,
+      default: defaultScorecard,
+    },
+  ],
 });
 
 module.exports = mongoose.model("Player", playerSchema);
