@@ -7,8 +7,8 @@
     "npm": "8.x"
   },
   "scripts": {
-    "prod": "node ./start.js",
-    "build": "webpack",
+    "build": "node ./start.js",
+    "build:webpack": "webpack",
     "watch": "nodemon ./start.js --ignore public/",
     "start": "concurrently \"npm run watch\" \"npm run assets\" --names \"💻,📦\" --prefix name",
     "assets": "webpack -w",
