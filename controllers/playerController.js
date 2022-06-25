@@ -40,33 +40,38 @@ exports.getPlayerDetails = async (req, res) => {
 
 exports.updateHole = async (req, res) => {
   const player = await Player.findById(req.body.id);
-  const prevHole = player.currentHole;
-  console.log('prevHole', prevHole);
+  // const prevHole = player.currentHole;
+  // console.log('prevHole', prevHole);
   player.currentHole = req.body.currentHole;
-  player.scorecard.forEach((hole) => {
-    if (hole.hole === prevHole) {
-      console.log('played hole!', prevHole);
-      hole.playedHole = true;
-    }
-  });
+  // player.scorecard.forEach((hole) => {
+  //   if (hole.hole === prevHole) {
+  //     console.log('played hole!', prevHole);
+  //     hole.playedHole = true;
+  //   }
+  // });
   await player.save();
   res.json(player);
 };
 
 exports.updateScore = async (req, res) => {
   const player = await Player.findById(req.body.id);
-  console.log('player', player);
   const course = await Tournament.findById(ObjectId(player.tournament));
 
+  // Update scores for hole
   player.scorecard[req.body.currentHole - 1].scores = req.body.newScores.map(
-    (newScore) => newScore
+    (newScore) => Number(newScore)
   );
 
+  // Flag that player has played hole
+  player.scorecard[req.body.currentHole - 1].playedHole = true;
+
+  // Update player total score
   player.totalScore = player.scorecard.reduce(
     (total, hole) => total + getHoleTotalScore(hole),
     0
   );
 
+  // Update player par score
   player.parScore = player.scorecard.reduce((total, hole, currentIndex) => {
     const holeScore = getHoleTotalScore(hole);
     const result =
@@ -74,11 +79,16 @@ exports.updateScore = async (req, res) => {
     return result + total;
   }, 0);
 
+  // Update player net score
   player.netScore = player.totalScore - player.handicap;
 
+  // Update player thru value
   player.thru = player.scorecard.reduce((total, hole) => {
     if (hole.playedHole) {
+      console.log('playedHole', hole.playedHole);
       return total + 1;
+    } else {
+      return total;
     }
   }, 0);
 
