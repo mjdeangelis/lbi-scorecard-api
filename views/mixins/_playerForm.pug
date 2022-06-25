@@ -2,6 +2,10 @@ mixin playerForm(player = {})
     form(action="/api/players/add" method="POST" class="card")
         label(for="name") Name
         input(type="text" name="name")
+        label(for="players[0][name]") Player 1 Name
+        input(type="text" name="players[0][name]")
+        label(for="players[1][name]") Player 2 Name
+        input(type="text" name="players[1][name]")
         label(for="handicap") Handicap
         input(type="text" name="handicap")
         label(for="currentHole") Starting Hole
