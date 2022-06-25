@@ -47,10 +47,6 @@ exports.updateHole = async (req, res) => {
 exports.updateScore = async (req, res) => {
   const player = await Player.findById(req.body.id);
   const course = await Tournament.findById('62acee1f82eee941e40ee295'); // todo: this id should be attached to the player
-  console.log('req.body', req.body);
-  req.body.newScores.forEach((newScore) => {
-    console.log('newScore', newScore);
-  });
 
   player.scorecard[req.body.currentHole - 1].scores = req.body.newScores.map(
     (newScore) => newScore
