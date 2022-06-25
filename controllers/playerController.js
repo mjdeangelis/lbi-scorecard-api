@@ -40,14 +40,23 @@ exports.getPlayerDetails = async (req, res) => {
 
 exports.updateHole = async (req, res) => {
   const player = await Player.findById(req.body.id);
+  const prevHole = player.currentHole;
+  console.log('prevHole', prevHole);
   player.currentHole = req.body.currentHole;
+  player.scorecard.forEach((hole) => {
+    if (hole.hole === prevHole) {
+      console.log('played hole!', prevHole);
+      hole.playedHole = true;
+    }
+  });
   await player.save();
   res.json(player);
 };
 
 exports.updateScore = async (req, res) => {
   const player = await Player.findById(req.body.id);
-  const course = await Tournament.findById('62acee1f82eee941e40ee295'); // todo: this id should be attached to the player
+  console.log('player', player);
+  const course = await Tournament.findById(ObjectId(player.tournament));
 
   player.scorecard[req.body.currentHole - 1].scores = req.body.newScores.map(
     (newScore) => newScore
@@ -66,6 +75,12 @@ exports.updateScore = async (req, res) => {
   }, 0);
 
   player.netScore = player.totalScore - player.handicap;
+
+  player.thru = player.scorecard.reduce((total, hole) => {
+    if (hole.playedHole) {
+      return total + 1;
+    }
+  }, 0);
 
   await player.save();
   res.json(player);

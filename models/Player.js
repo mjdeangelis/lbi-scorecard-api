@@ -7,6 +7,7 @@ const scorecardType = [
     hole: Number,
     scores: [Number],
     adjustedScore: Number,
+    playedHole: Boolean,
   },
 ];
 const defaultScorecard = [
@@ -14,91 +15,109 @@ const defaultScorecard = [
     hole: 1,
     scores: [0, 0],
     adjustedScore: 0,
+    playedHole: false,
   },
   {
     hole: 2,
     scores: [0, 0],
     adjustedScore: 0,
+    playedHole: false,
   },
   {
     hole: 3,
     scores: [0, 0],
     adjustedScore: 0,
+    playedHole: false,
   },
   {
     hole: 4,
     scores: [0, 0],
     adjustedScore: 0,
+    playedHole: false,
   },
   {
     hole: 5,
     scores: [0, 0],
     adjustedScore: 0,
+    playedHole: false,
   },
   {
     hole: 6,
     scores: [0, 0],
     adjustedScore: 0,
+    playedHole: false,
   },
   {
     hole: 7,
     scores: [0, 0],
     adjustedScore: 0,
+    playedHole: false,
   },
   {
     hole: 8,
     scores: [0, 0],
     adjustedScore: 0,
+    playedHole: false,
   },
   {
     hole: 9,
     scores: [0, 0],
     adjustedScore: 0,
+    playedHole: false,
   },
   {
     hole: 10,
     scores: [0, 0],
     adjustedScore: 0,
+    playedHole: false,
   },
   {
     hole: 11,
     scores: [0, 0],
     adjustedScore: 0,
+    playedHole: false,
   },
   {
     hole: 12,
     scores: [0, 0],
     adjustedScore: 0,
+    playedHole: false,
   },
   {
     hole: 13,
     scores: [0, 0],
     adjustedScore: 0,
+    playedHole: false,
   },
   {
     hole: 14,
     scores: [0, 0],
     adjustedScore: 0,
+    playedHole: false,
   },
   {
     hole: 15,
     scores: [0, 0],
     adjustedScore: 0,
+    playedHole: false,
   },
   {
     hole: 16,
     scores: [0, 0],
     adjustedScore: 0,
+    playedHole: false,
   },
   {
     hole: 17,
     scores: [0, 0],
     adjustedScore: 0,
+    playedHole: false,
   },
   {
     hole: 18,
     scores: [0, 0],
     adjustedScore: 0,
+    playedHole: false,
   },
 ];
 
