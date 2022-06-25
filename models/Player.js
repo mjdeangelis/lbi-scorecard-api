@@ -115,6 +115,10 @@ const playerSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
+  netScore: {
+    type: Number,
+    default: 0,
+  },
   parScore: {
     type: Number,
     default: 0,

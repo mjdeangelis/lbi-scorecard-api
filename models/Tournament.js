@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
 const tournamentSchema = new mongoose.Schema({
@@ -23,15 +23,17 @@ const tournamentSchema = new mongoose.Schema({
       {
         hole: Number,
         par: Number,
+        handicap: Number,
+        yards: Number,
       },
     ],
   },
   players: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Player",
+      ref: 'Player',
     },
   ],
 });
 
-module.exports = mongoose.model("Tournament", tournamentSchema);
+module.exports = mongoose.model('Tournament', tournamentSchema);

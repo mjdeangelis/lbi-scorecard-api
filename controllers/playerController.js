@@ -14,6 +14,7 @@ exports.addPlayer = (req, res) => {
 
 exports.createPlayer = async (req, res) => {
   const player = new Player(req.body);
+  player.netScore = -player.handicap;
   await player.save();
   res.send('Player submitted');
 };
@@ -63,6 +64,8 @@ exports.updateScore = async (req, res) => {
       holeScore !== 0 ? holeScore - course.holes[currentIndex].par * 2 : 0;
     return result + total;
   }, 0);
+
+  player.netScore = player.totalScore - player.handicap;
 
   await player.save();
   res.json(player);
