@@ -7,7 +7,7 @@
     "npm": "8.x"
   },
   "scripts": {
-    "start": "node ./start.js",
+    "start": "forever node ./start.js",
     "build": "webpack",
     "watch": "nodemon ./start.js --ignore public/",
     "dev": "concurrently \"npm run watch\" \"npm run assets\" --names \"💻,📦\" --prefix name",
@@ -18,6 +18,8 @@
   },
   "browserslist": "last 3 versions",
   "dependencies": {
+    "@sentry/node": "^7.6.0",
+    "@sentry/tracing": "^7.6.0",
     "axios": "0.24.0",
     "connect-flash": "0.1.1",
     "connect-mongo": "4.6.0",
@@ -30,6 +32,8 @@
     "express-session": "1.17.2",
     "express-validator": "5.3.1",
     "faker": "5.5.3",
+    "forever": "^4.0.3",
+    "generate-password": "^1.7.0",
     "glob": "7.2.0",
     "html-to-text": "8.0.0",
     "jimp": "0.16.1",

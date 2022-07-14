@@ -1,5 +1,7 @@
 const { ObjectId } = require('mongodb');
 const mongoose = require('mongoose');
+const generator = require('generate-password');
+
 mongoose.Promise = global.Promise;
 
 const scorecardType = [
@@ -153,6 +155,16 @@ const playerSchema = new mongoose.Schema({
   },
   currentHole: {
     type: Number,
+  },
+  password: {
+    type: String,
+    default: generator.generate({
+      length: 5,
+      numbers: true,
+      uppercase: true,
+      lowercase: true,
+      excludeSimilarCharacters: true,
+    }),
   },
   scorecard: {
     type: scorecardType,
