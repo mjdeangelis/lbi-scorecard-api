@@ -6,9 +6,9 @@ const mongoOptions = {
 };
 
 const connectToMongoose = async (dbUri = productionDbUri) => {
-//   mongoose.set("useFindAndModify", false);
-//   mongoose.set("useCreateIndex", true);
-//   await mongoose.connect(process.env.DATABASE, mongoOptions);
+  //   mongoose.set("useFindAndModify", false);
+  //   mongoose.set("useCreateIndex", true);
+  //   await mongoose.connect(process.env.DATABASE, mongoOptions);
   await mongoose.connect(process.env.DATABASE);
 };
 

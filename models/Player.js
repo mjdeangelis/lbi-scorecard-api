@@ -147,7 +147,7 @@ const playerSchema = new mongoose.Schema({
   tournament: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Tournament',
-    default: ObjectId('62b66f3a823df6535020cf38'),
+    default: ObjectId('62d06d5b22205616a2c67323'),
   },
   thru: {
     type: Number,
@@ -158,13 +158,7 @@ const playerSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    default: generator.generate({
-      length: 5,
-      numbers: true,
-      uppercase: true,
-      lowercase: true,
-      excludeSimilarCharacters: true,
-    }),
+    default: 000,
   },
   scorecard: {
     type: scorecardType,
@@ -179,4 +173,19 @@ const playerSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model('Player', playerSchema);
+const clearScores = async () => {
+  console.log('Resetting scorecards..');
+  await Player.updateMany(
+    {},
+    {
+      $set: {
+        scorecard: defaultScorecard,
+      },
+    }
+  );
+  console.log('Done!');
+};
+
+const Player = mongoose.model('Player', playerSchema);
+
+module.exports = { Player, playerSchema, clearScores };

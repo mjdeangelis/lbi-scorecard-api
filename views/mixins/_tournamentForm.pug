@@ -12,83 +12,121 @@ mixin tournamentForm(tournament = {})
             const holes = [
                 {
                     hole: 1,
-                    par: 3,
-                },                 {
-                    hole: 2,
+                    alias: 'W1',
                     par: 4,
+                    yards: 380,
+                }, {
+                    hole: 2,
+                    alias: 'W2',
+                    par: 4,
+                    yards: 350,
                 },
                 {
                     hole: 3,
-                    par: 4,
+                    alias: 'W3',
+                    par: 3,
+                    yards: 165,
                 },
                 {
                     hole: 4,
-                    par: 4,
+                    alias: 'W4',
+                    par: 5,
+                    yards: 503,
                 },
                 {
                     hole: 5,
-                    par: 3,
+                    alias: 'W5',
+                    par: 4,
+                    yards: 382,
                 },
                 {
                     hole: 6,
-                    par: 5,
+                    alias: 'W6',
+                    par: 3,
+                    yards: 195,
                 },
                 {
                     hole: 7,
-                    par: 4,
+                    alias: 'W7',
+                    par: 5,
+                    yards: 498,
                 },
                 {
                     hole: 8,
+                    alias: 'W8',
                     par: 4,
+                    yards: 365,
                 },
                 {
                     hole: 9,
-                    par: 5,
+                    alias: 'W9',
+                    par: 4,
+                    yards: 353,
                 },
                 {
                     hole: 10,
+                    alias: 'R1',
                     par: 4,
+                    yards: 348,
                 },
                 {
                     hole: 11,
-                    par: 3,
+                    alias: 'R2',
+                    par: 4,
+                    yards: 351,
                 },
                 {
                     hole: 12,
-                    par: 4,
+                    alias: 'R3',
+                    par: 5,
+                    yards: 526,
                 },
                 {
                     hole: 13,
-                    par: 5,
+                    alias: 'R4',
+                    par: 4,
+                    yards: 411,
                 },
                 {
                     hole: 14,
+                    alias: 'R5',
                     par: 3,
+                    yards: 171,
                 },
                 {
                     hole: 15,
-                    par: 4,
+                    alias: 'R6',
+                    par: 5,
+                    yards: 462,
                 },
                 {
                     hole: 16,
-                    par: 5,
+                    alias: 'R7',
+                    par: 4,
+                    yards: 377,
                 },
                 {
                     hole: 17,
+                    alias: 'R8',
                     par: 4,
+                    yards: 411,
                 },
                 {
                     hole: 18,
-                    par: 4,
+                    alias: 'R9',
+                    par: 3,
+                    yards: 141,
                 }]
         ul.tags
             each hole, i in holes
                 label(for="holes[${i}][hole]") Hole
                 input(type="text" name=`holes[${i}][hole]` value=hole.hole readonly)
+                label(for="holes[${i}][alias]") Alias
+                input(type="text" name=`holes[${i}][alias]` value=hole.alias readonly)
                 label(for="holes[${i}][par]") Par
-                input(type="text" name=`holes[${i}][par]`)
+                input(type="text" name=`holes[${i}][par]` value=hole.par)
                 label(for="holes[${i}][handicap]") Handicap
-                input(type="text" name=`holes[${i}][handicap]`)
+                input(type="text" name=`holes[${i}][handicap]` value=0)
                 label(for="holes[${i}][yards]") Yards
-                input(type="text" name=`holes[${i}][yards]`)
+                input(type="text" name=`holes[${i}][yards]` value=hole.yards)
         input(type="submit" value="Save" class="button")

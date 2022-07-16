@@ -15,6 +15,7 @@ exports.addPlayer = (req, res) => {
 exports.createPlayer = async (req, res) => {
   const player = new Player(req.body);
   player.netScore = -player.handicap;
+  player.password = Math.floor(Math.random() * (999 - 100 + 1) + 100);
   await player.save();
   res.send('Player submitted');
 };
@@ -85,7 +86,6 @@ exports.updateScore = async (req, res) => {
   // Update player thru value
   player.thru = player.scorecard.reduce((total, hole) => {
     if (hole.playedHole) {
-      console.log('playedHole', hole.playedHole);
       return total + 1;
     } else {
       return total;

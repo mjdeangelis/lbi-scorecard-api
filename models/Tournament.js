@@ -25,6 +25,7 @@ const tournamentSchema = new mongoose.Schema({
         par: Number,
         handicap: Number,
         yards: Number,
+        alias: String,
       },
     ],
   },
