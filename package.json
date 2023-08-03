@@ -1,5 +1,5 @@
 {
-  "name": "dang-thats-delicious",
+  "name": "lbi-scoreboard-api ",
   "version": "0.0.0",
   "private": true,
   "engines": {
@@ -14,7 +14,8 @@
     "assets": "webpack -w",
     "sample": "node ./data/load-sample-data.js",
     "blowitallaway": "node ./data/load-sample-data.js --delete",
-    "now": "now -e DB_USER=@db_user -e DB_PASS=@db_pass -e NODE_ENV=\"production\" -e PORT=80"
+    "now": "now -e DB_USER=@db_user -e DB_PASS=@db_pass -e NODE_ENV=\"production\" -e PORT=80",
+    "clear": "node ./scripts/clearScores.js"
   },
   "browserslist": "last 3 versions",
   "dependencies": {
@@ -33,7 +34,6 @@
     "express-validator": "5.3.1",
     "faker": "5.5.3",
     "forever": "^4.0.3",
-    "generate-password": "^1.7.0",
     "glob": "7.2.0",
     "html-to-text": "8.0.0",
     "jimp": "0.16.1",

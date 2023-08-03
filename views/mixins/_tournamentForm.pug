@@ -122,11 +122,11 @@ mixin tournamentForm(tournament = {})
                 label(for="holes[${i}][hole]") Hole
                 input(type="text" name=`holes[${i}][hole]` value=hole.hole readonly)
                 label(for="holes[${i}][alias]") Alias
-                input(type="text" name=`holes[${i}][alias]` value=hole.alias readonly)
+                input(type="text" name=`holes[${i}][alias]` value='')
                 label(for="holes[${i}][par]") Par
                 input(type="text" name=`holes[${i}][par]` value=hole.par)
                 label(for="holes[${i}][handicap]") Handicap
-                input(type="text" name=`holes[${i}][handicap]` value=0)
+                input(type="text" name=`holes[${i}][handicap]`)
                 label(for="holes[${i}][yards]") Yards
                 input(type="text" name=`holes[${i}][yards]` value=hole.yards)
         input(type="submit" value="Save" class="button")

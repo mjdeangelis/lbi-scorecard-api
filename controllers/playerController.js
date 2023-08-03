@@ -6,6 +6,9 @@ const Player = mongoose.model('Player');
 const getHoleTotalScore = (hole) =>
   hole.scores.reduce((total, playerScore) => total + playerScore);
 
+// const getHoleTotalTeamScore = (hole) =>
+//   hole.scores.reduce((total, playerScore) => total + playerScore);
+
 exports.addPlayer = (req, res) => {
   res.render('editPlayer', {
     title: 'Add Player',
@@ -41,15 +44,7 @@ exports.getPlayerDetails = async (req, res) => {
 
 exports.updateHole = async (req, res) => {
   const player = await Player.findById(req.body.id);
-  // const prevHole = player.currentHole;
-  // console.log('prevHole', prevHole);
   player.currentHole = req.body.currentHole;
-  // player.scorecard.forEach((hole) => {
-  //   if (hole.hole === prevHole) {
-  //     console.log('played hole!', prevHole);
-  //     hole.playedHole = true;
-  //   }
-  // });
   await player.save();
   res.json(player);
 };
@@ -77,6 +72,49 @@ exports.updateScore = async (req, res) => {
     const holeScore = getHoleTotalScore(hole);
     const result =
       holeScore !== 0 ? holeScore - course.holes[currentIndex].par * 2 : 0;
+    return result + total;
+  }, 0);
+
+  // Update player net score
+  player.netScore = player.totalScore - player.handicap;
+
+  // Update player thru value
+  player.thru = player.scorecard.reduce((total, hole) => {
+    if (hole.playedHole) {
+      return total + 1;
+    } else {
+      return total;
+    }
+  }, 0);
+
+  await player.save();
+  res.json(player);
+};
+
+exports.updateTeamScore = async (req, res) => {
+  const player = await Player.findById(req.body.id);
+  const course = await Tournament.findById(ObjectId(player.tournament));
+
+  // Update scores for hole
+  player.scorecard[req.body.currentHole - 1].teamScore = Number(
+    req.body.newScores
+  );
+
+  // Flag that player has played hole
+  player.scorecard[req.body.currentHole - 1].playedHole = true;
+
+  // Update team total score
+  player.totalScore = player.scorecard.reduce(
+    (total, hole) => total + hole.teamScore,
+    0
+  );
+
+  // Update team par score
+  console.log('player.scorecard', player.scorecard);
+  player.parScore = player.scorecard.reduce((total, hole, currentIndex) => {
+    const holeScore = hole.teamScore;
+    const result =
+      holeScore !== 0 ? holeScore - course.holes[currentIndex].par : 0;
     return result + total;
   }, 0);
 
