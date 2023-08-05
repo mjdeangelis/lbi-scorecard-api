@@ -143,6 +143,10 @@ const playerSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
+  netParScore: {
+    type: Number,
+    default: 0,
+  },
   tournament: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Tournament',
@@ -179,6 +183,10 @@ const clearScores = async () => {
     {
       $set: {
         scorecard: defaultScorecard,
+        totalScore: 0,
+        parScore: 0,
+        netParScore: 0,
+        thru: 0,
       },
     }
   );

@@ -117,6 +117,7 @@ exports.updateTeamScore = async (req, res) => {
       holeScore !== 0 ? holeScore - course.holes[currentIndex].par : 0;
     return result + total;
   }, 0);
+  player.netParScore = player.parScore - player.handicap;
 
   // Update player net score
   player.netScore = player.totalScore - player.handicap;
