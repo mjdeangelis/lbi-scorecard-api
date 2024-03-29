@@ -4,6 +4,7 @@ const router = express.Router();
 router.use('/courses', require('./courses'));
 router.use('/players', require('./players'));
 router.use('/tournaments', require('./tournaments'));
+router.use('/registration', require('./registration'));
 
 /**
  *

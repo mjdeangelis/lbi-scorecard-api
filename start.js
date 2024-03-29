@@ -23,6 +23,8 @@ mongoose.connection.on('error', (err) => {
 require('./models/Tournament');
 require('./models/Course');
 require('./models/Player');
+require('./models/RegisteredPlayer');
+require('./models/Team');
 
 // Start our app!
 const app = require('./app');
