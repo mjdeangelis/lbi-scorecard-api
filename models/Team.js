@@ -131,7 +131,7 @@ const teamSchema = new mongoose.Schema({
   teammateName: {
     type: String,
     required: function () {
-      return this.registeringTeammate;
+      return !this.registeringTeammate;
     },
   },
   registeringTeammate: {
