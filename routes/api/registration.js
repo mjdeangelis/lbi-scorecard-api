@@ -13,6 +13,10 @@ router.post(
   '/create-payment-intent',
   catchErrors(registrationController.createPaymentIntent)
 );
+router.post(
+  '/update-customer',
+  catchErrors(registrationController.updateCustomer)
+);
 router.post('/register-team', catchErrors(registrationController.registerTeam));
 router.post(
   '/update-team/:teamId',
