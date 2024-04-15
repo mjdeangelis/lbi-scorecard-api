@@ -14,7 +14,7 @@ const registeredPlayerSchema = new Schema({
   },
   shirtSize: {
     type: String,
-    enum: ['Small', 'Medium', 'Large', 'X-Large'], // Assuming these are the only valid sizes
+    enum: ['small', 'medium', 'large', 'x-large'], // Assuming these are the only valid sizes
     required: true,
   },
   averageScore: {

@@ -145,6 +145,10 @@ const teamSchema = new mongoose.Schema({
       'At least one player is required when registering a teammate',
     ],
   }, // Embedding player schema
+  email: {
+    type: String,
+    required: false,
+  },
 });
 
 // Custom validator function
