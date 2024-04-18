@@ -88,16 +88,26 @@ exports.updatePaymentIntent = async (req, res) => {
 };
 
 exports.updateCustomer = async (req, res) => {
-  const { customerId, email } = req.body;
+  const { customerId, teamId, email } = req.body;
 
-  console.log('customerId', customerId);
-  console.log('email', email);
+  console.log(
+    `Updating resource with parameters: teamId: ${teamId}, customerId: ${customerId}, email: ${email}`
+  );
 
   const stripeCustomer = await stripe.customers.update(customerId, {
     email,
   });
 
-  console.log('StripeCustomer', stripeCustomer);
+  console.log('Created stripeCustomer:', stripeCustomer.id);
+
+  // Update the team in the database
+  const updatedTeam = await Team.findByIdAndUpdate(
+    teamId,
+    { email },
+    { new: true }
+  );
+
+  console.log('Updated team with _id:', updatedTeam._id);
 
   res.send({
     customerId: stripeCustomer.id,
