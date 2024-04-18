@@ -17,14 +17,13 @@ const calculateChargeAmount = (id) => {
 };
 
 exports.createPaymentIntent = async (req, res) => {
-  const { id, customer } = req.body;
+  const { id, customer, description } = req.body;
 
   console.log('customer', customer);
 
   stripeCustomer = await stripe.customers.create({
     name: customer.name,
     phone: customer.phone,
-    // todo: add email?
   });
 
   console.log('StripeCustomer', stripeCustomer);
@@ -34,6 +33,7 @@ exports.createPaymentIntent = async (req, res) => {
     amount: calculateChargeAmount(id),
     currency: 'usd',
     customer: stripeCustomer.id,
+    description,
     // In the latest version of the API, specifying the `automatic_payment_methods` parameter is optional because Stripe enables its functionality by default.
     automatic_payment_methods: {
       enabled: true,
