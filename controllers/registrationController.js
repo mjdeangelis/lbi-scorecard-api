@@ -46,6 +46,42 @@ exports.createPaymentIntent = async (req, res) => {
   const paymentIntent = await stripe.paymentIntents.create(requestBody);
 
   res.send({
+    paymentIntentId: paymentIntent.id,
+    clientSecret: paymentIntent.client_secret,
+    customerId: stripeCustomer.id,
+  });
+};
+
+exports.updatePaymentIntent = async (req, res) => {
+  let { id, customer, customerId, description, paymentIntentId } = req.body;
+
+  console.log('req.body', req.body);
+
+  stripeCustomer = await stripe.customers.update(customerId, {
+    name: customer.name,
+    phone: customer.phone,
+  });
+
+  console.log('StripeCustomer', stripeCustomer);
+
+  const requestBody = {
+    amount: calculateChargeAmount(id),
+    currency: 'usd',
+    customer: stripeCustomer.id,
+  };
+
+  if (description) {
+    requestBody.description = description;
+  }
+
+  // Create a PaymentIntent with the order amount and currency
+  const paymentIntent = await stripe.paymentIntents.update(
+    paymentIntentId,
+    requestBody
+  );
+
+  res.send({
+    paymentIntentId: paymentIntent.id,
     clientSecret: paymentIntent.client_secret,
     customerId: stripeCustomer.id,
   });
