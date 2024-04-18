@@ -19,6 +19,15 @@ const calculateChargeAmount = (id) => {
 exports.createPaymentIntent = async (req, res) => {
   let { id, customer, description } = req.body;
 
+  console.log('customer', customer);
+
+  stripeCustomer = await stripe.customers.create({
+    name: customer.name,
+    phone: customer.phone,
+  });
+
+  console.log('StripeCustomer', stripeCustomer);
+
   const requestBody = {
     amount: calculateChargeAmount(id),
     currency: 'usd',
@@ -32,15 +41,6 @@ exports.createPaymentIntent = async (req, res) => {
   if (description) {
     requestBody.description = description;
   }
-
-  console.log('customer', customer);
-
-  stripeCustomer = await stripe.customers.create({
-    name: customer.name,
-    phone: customer.phone,
-  });
-
-  console.log('StripeCustomer', stripeCustomer);
 
   // Create a PaymentIntent with the order amount and currency
   const paymentIntent = await stripe.paymentIntents.create(requestBody);
