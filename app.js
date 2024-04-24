@@ -14,6 +14,7 @@ const errorHandlers = require('./handlers/errorHandlers');
 
 const Sentry = require('@sentry/node');
 const Tracing = require('@sentry/tracing');
+const Integrations = require('@sentry/integrations');
 
 // create our Express app
 const app = express();
@@ -26,7 +27,7 @@ Sentry.init({
     new Sentry.Integrations.Http({ tracing: true }),
     // enable Express.js middleware tracing
     new Tracing.Integrations.Express({ app }),
-    new CaptureConsole({
+    Integrations.captureConsoleIntegration({
       levels: ['log', 'info', 'warn', 'error', 'debug', 'assert'],
     }),
   ],
