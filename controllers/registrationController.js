@@ -16,17 +16,26 @@ const calculateChargeAmount = (id) => {
   }
 };
 
-exports.createPaymentIntent = async (req, res) => {
+exports.createPaymentIntent = async (req, res, next) => {
+  let stripeCustomer, paymentIntent;
   let { id, customer, description } = req.body;
 
-  console.log('customer', customer);
+  console.log(
+    `Creating payment intent with parameters: id: ${id}, customer.name: ${customer.name}, customer.phone: ${customer.phone}, description: ${description}`
+  );
 
-  stripeCustomer = await stripe.customers.create({
-    name: customer.name,
-    phone: customer.phone,
-  });
+  try {
+    stripeCustomer = await stripe.customers.create({
+      name: customer.name,
+      phone: customer.phone,
+    });
+  } catch (error) {
+    console.error(error);
+    // throw error;
+    return next(error);
+  }
 
-  console.log('StripeCustomer', stripeCustomer);
+  console.log(`Stripe customer created: ${stripeCustomer.id}`);
 
   const requestBody = {
     amount: calculateChargeAmount(id),
@@ -42,8 +51,16 @@ exports.createPaymentIntent = async (req, res) => {
     requestBody.description = description;
   }
 
-  // Create a PaymentIntent with the order amount and currency
-  const paymentIntent = await stripe.paymentIntents.create(requestBody);
+  try {
+    // Create a PaymentIntent with the order amount and currency
+    paymentIntent = await stripe.paymentIntents.create(requestBody);
+  } catch (error) {
+    console.error(error);
+    // throw error;
+    return next(error);
+  }
+
+  console.log(`Payment intent created: ${paymentIntent.id}`);
 
   res.send({
     paymentIntentId: paymentIntent.id,
@@ -52,17 +69,25 @@ exports.createPaymentIntent = async (req, res) => {
   });
 };
 
-exports.updatePaymentIntent = async (req, res) => {
+exports.updatePaymentIntent = async (req, res, next) => {
+  let stripeCustomer, paymentIntent;
   let { id, customer, customerId, description, paymentIntentId } = req.body;
 
-  console.log('req.body', req.body);
+  console.log(
+    `Updating payment intent with parameters: id: ${id}, customerId: ${customerId}, customer.name: ${customer.name}, paymentIntentId: ${paymentIntentId}`
+  );
 
-  stripeCustomer = await stripe.customers.update(customerId, {
-    name: customer.name,
-    phone: customer.phone,
-  });
+  try {
+    stripeCustomer = await stripe.customers.update(customerId, {
+      name: customer.name,
+      phone: customer.phone,
+    });
+  } catch (error) {
+    console.error(error);
+    return next(error);
+  }
 
-  console.log('StripeCustomer', stripeCustomer);
+  console.log(`Stripe customer updated ${stripeCustomer.id}`);
 
   const requestBody = {
     amount: calculateChargeAmount(id),
@@ -74,11 +99,19 @@ exports.updatePaymentIntent = async (req, res) => {
     requestBody.description = description;
   }
 
-  // Create a PaymentIntent with the order amount and currency
-  const paymentIntent = await stripe.paymentIntents.update(
-    paymentIntentId,
-    requestBody
-  );
+  try {
+    // Update a PaymentIntent with the order amount and currency
+    paymentIntent = await stripe.paymentIntents.update(
+      paymentIntentId,
+      requestBody
+    );
+  } catch (error) {
+    console.error(error);
+    // throw error;
+    return next(error);
+  }
+
+  console.log(`Payment intent updated: ${paymentIntent.id}`);
 
   res.send({
     paymentIntentId: paymentIntent.id,
@@ -87,45 +120,60 @@ exports.updatePaymentIntent = async (req, res) => {
   });
 };
 
-exports.updateCustomer = async (req, res) => {
+exports.updateCustomer = async (req, res, next) => {
+  let stripeCustomer, updatedTeam;
   const { customerId, teamId, email } = req.body;
 
   console.log(
-    `Updating resource with parameters: teamId: ${teamId}, customerId: ${customerId}, email: ${email}`
+    `Updating customer with parameters: teamId: ${teamId}, customerId: ${customerId}, email: ${email}`
   );
 
-  const stripeCustomer = await stripe.customers.update(customerId, {
-    email,
-  });
+  try {
+    stripeCustomer = await stripe.customers.update(customerId, {
+      email,
+    });
+  } catch (error) {
+    console.error(error);
+    // throw error;
+    return next(error);
+  }
 
-  console.log('Created stripeCustomer:', stripeCustomer.id);
+  console.log(`Updated Stripe customer: ${stripeCustomer.id}`);
 
   // Update the team in the database
-  const updatedTeam = await Team.findByIdAndUpdate(
-    teamId,
-    { email },
-    { new: true }
-  );
+  try {
+    updatedTeam = await Team.findByIdAndUpdate(
+      teamId,
+      { email },
+      { new: true }
+    );
+  } catch (error) {
+    console.error(error);
+    // throw error;
+    return next(error);
+  }
 
-  console.log('Updated team with _id:', updatedTeam._id);
+  console.log(`Updated team: ${updatedTeam._id}`);
 
   res.send({
     customerId: stripeCustomer.id,
   });
 };
 
-exports.registerTeam = async (req, res) => {
+exports.registerTeam = async (req, res, next) => {
+  console.log(`Registering team for player: ${req.body.players[0].name}`);
   try {
     const team = new Team(req.body);
     await team.save();
     return res.status(200).send({ status: 'SUCCESS', teamId: team._id });
   } catch (error) {
     console.error(error);
-    throw error;
+    // throw error;
+    return next(error);
   }
 };
 
-exports.updateTeam = async (req, res) => {
+exports.updateTeam = async (req, res, next) => {
   try {
     const teamId = req.params.teamId;
     const updatedTeamData = req.body;
@@ -136,6 +184,7 @@ exports.updateTeam = async (req, res) => {
     return res.status(200).send({ status: 'SUCCESS', teamId });
   } catch (error) {
     // Handle errors (e.g., team not found, validation errors)
-    res.status(500).send(error.message);
+    // res.status(500).send(error.message);
+    return next(error);
   }
 };
