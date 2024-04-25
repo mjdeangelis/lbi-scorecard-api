@@ -62,7 +62,7 @@ exports.createPaymentIntent = async (req, res, next) => {
 
   console.log(`Payment intent created: ${paymentIntent.id}`);
 
-  res.send({
+  return res.status(200).send({
     paymentIntentId: paymentIntent.id,
     clientSecret: paymentIntent.client_secret,
     customerId: stripeCustomer.id,
@@ -113,7 +113,7 @@ exports.updatePaymentIntent = async (req, res, next) => {
 
   console.log(`Payment intent updated: ${paymentIntent.id}`);
 
-  res.send({
+  return res.status(200).send({
     paymentIntentId: paymentIntent.id,
     clientSecret: paymentIntent.client_secret,
     customerId: stripeCustomer.id,
@@ -155,7 +155,7 @@ exports.updateCustomer = async (req, res, next) => {
 
   console.log(`Updated team: ${updatedTeam._id}`);
 
-  res.send({
+  return res.status(200).send({
     customerId: stripeCustomer.id,
   });
 };
@@ -165,7 +165,7 @@ exports.registerTeam = async (req, res, next) => {
   try {
     const team = new Team(req.body);
     await team.save();
-    return res.status(200).send({ status: 'SUCCESS', teamId: team._id });
+    return res.status(200).send({ message: 'SUCCESS', teamId: team._id });
   } catch (error) {
     console.error(error);
     // throw error;
@@ -181,7 +181,7 @@ exports.updateTeam = async (req, res, next) => {
     // Update the team in the database
     await Team.findByIdAndUpdate(teamId, updatedTeamData, { new: true });
 
-    return res.status(200).send({ status: 'SUCCESS', teamId });
+    return res.status(200).send({ message: 'SUCCESS', teamId });
   } catch (error) {
     // Handle errors (e.g., team not found, validation errors)
     // res.status(500).send(error.message);
