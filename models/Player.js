@@ -150,7 +150,7 @@ const playerSchema = new mongoose.Schema({
   tournament: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Tournament',
-    default: ObjectId('64c9aa773c7e801258a27a7a'),
+    default: ObjectId('66a5971d57a98add4e0e1466'),
   },
   thru: {
     type: Number,
